@@ -13,6 +13,10 @@ PRIORITY_EMOJI = {"높음": "🔴", "보통": "🟡", "낮음": "🟢"}
 st.set_page_config(page_title="나의 할일", page_icon="✅", layout="centered")
 
 st.markdown("""
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="나의 할일">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href='data:application/manifest+json,{"name":"나의 할일","short_name":"나의 할일","start_url":"/","display":"standalone","background_color":"#ffffff","theme_color":"#ff4b4b"}'>
 <style>
 /* 공통 */
 .block-container { padding-top: 1.5rem; padding-bottom: 2rem; }
@@ -24,12 +28,16 @@ div[data-testid="stHorizontalBlock"]:has(> div[data-testid="column"]:nth-child(3
     box-shadow: none !important;
     color: inherit !important;
     text-align: left !important;
+    justify-content: flex-start !important;
     padding: 0.1rem 0 !important;
     font-size: 1rem !important;
     font-weight: normal !important;
     width: 100% !important;
     cursor: pointer !important;
     min-height: unset !important;
+}
+div[data-testid="stHorizontalBlock"]:has(> div[data-testid="column"]:nth-child(3)) > div[data-testid="column"]:nth-child(2) button p {
+    text-align: left !important;
 }
 div[data-testid="stHorizontalBlock"]:has(> div[data-testid="column"]:nth-child(3)) > div[data-testid="column"]:nth-child(2) button:hover {
     background: transparent !important;
