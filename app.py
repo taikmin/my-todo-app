@@ -11,6 +11,32 @@ import todo_manager as tm
 PRIORITY_EMOJI = {"높음": "🔴", "보통": "🟡", "낮음": "🟢"}
 
 st.set_page_config(page_title="나의 할일", page_icon="✅", layout="centered")
+
+st.markdown("""
+<style>
+/* 공통 */
+.block-container { padding-top: 1.5rem; padding-bottom: 2rem; }
+
+/* 모바일 최적화 */
+@media (max-width: 640px) {
+    h1 { font-size: 1.4rem !important; }
+    h2 { font-size: 1.1rem !important; }
+    .stButton > button {
+        min-height: 2.6rem;
+        font-size: 0.85rem;
+        padding: 0.25rem 0.4rem;
+    }
+    .stTextInput input, .stSelectbox select {
+        font-size: 1rem;
+        min-height: 2.6rem;
+    }
+    .stCheckbox > label { font-size: 1rem; }
+    .stDateInput input { min-height: 2.6rem; }
+    .stRadio label { font-size: 0.9rem; }
+}
+</style>
+""", unsafe_allow_html=True)
+
 st.title("✅ 나의 할일 프로그램")
 
 # --- 할일 추가 ---
