@@ -133,7 +133,7 @@ else:
                 st.session_state.editing_id = None
                 st.rerun()
         else:
-            col_check, col_label, col_edit, col_del = st.columns([0.5, 7, 1.5, 1.5])
+            col_check, col_label, col_actions = st.columns([0.5, 7, 2])
             with col_check:
                 checked = st.checkbox(
                     "", value=todo["done"], key=f"chk_{todo['id']}", label_visibility="collapsed"
@@ -143,11 +143,13 @@ else:
                     st.rerun()
             with col_label:
                 st.markdown(f"{emoji} {label}{due_text}")
-            with col_edit:
-                if st.button("✏️", key=f"edit_{todo['id']}", type="secondary", use_container_width=True):
-                    st.session_state.editing_id = todo["id"]
-                    st.rerun()
-            with col_del:
-                if st.button("🗑️", key=f"del_{todo['id']}", type="secondary", use_container_width=True):
-                    tm.delete(todo["id"])
-                    st.rerun()
+            with col_actions:
+                btn_edit, btn_del = st.columns(2)
+                with btn_edit:
+                    if st.button("✏️", key=f"edit_{todo['id']}", type="secondary", use_container_width=True):
+                        st.session_state.editing_id = todo["id"]
+                        st.rerun()
+                with btn_del:
+                    if st.button("🗑️", key=f"del_{todo['id']}", type="secondary", use_container_width=True):
+                        tm.delete(todo["id"])
+                        st.rerun()
