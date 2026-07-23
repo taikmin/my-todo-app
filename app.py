@@ -17,28 +17,29 @@ st.markdown("""
 /* 공통 */
 .block-container { padding-top: 1.5rem; padding-bottom: 2rem; }
 
-/* 제목을 텍스트처럼 보이는 버튼으로 */
-div[data-testid="stHorizontalBlock"]:has(> div[data-testid="column"]:nth-child(3)) > div[data-testid="column"]:nth-child(2) button {
+/* 제목 버튼 - 텍스트처럼 왼쪽 정렬 */
+div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(2) button[data-testid="baseButton-secondary"],
+div[data-testid="stColumns"] > div[data-testid="stColumn"]:nth-child(2) button[data-testid="baseButton-secondary"] {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
     color: inherit !important;
-    text-align: left !important;
-    justify-content: flex-start !important;
-    padding: 0.1rem 0 !important;
+    padding: 0.1rem 0.2rem !important;
     font-size: 1rem !important;
     font-weight: normal !important;
     width: 100% !important;
     cursor: pointer !important;
     min-height: unset !important;
 }
-div[data-testid="stHorizontalBlock"]:has(> div[data-testid="column"]:nth-child(3)) > div[data-testid="column"]:nth-child(2) button > div,
-div[data-testid="stHorizontalBlock"]:has(> div[data-testid="column"]:nth-child(3)) > div[data-testid="column"]:nth-child(2) button p {
+div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(2) button[data-testid="baseButton-secondary"] > div,
+div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(2) button[data-testid="baseButton-secondary"] p {
     text-align: left !important;
-    justify-content: flex-start !important;
     width: 100% !important;
 }
-div[data-testid="stHorizontalBlock"]:has(> div[data-testid="column"]:nth-child(3)) > div[data-testid="column"]:nth-child(2) button:hover {
+div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(2) button[data-testid="baseButton-secondary"]:hover {
     background: transparent !important;
     color: #ff4b4b !important;
     text-decoration: underline !important;
@@ -98,7 +99,7 @@ with col_f1:
         label_visibility="collapsed",
     )
 with col_f2:
-    if st.button("완료 항목 삭제", type="secondary"):
+    if st.button("완료 항목 삭제", type="primary"):
         removed = tm.delete_done()
         st.toast(f"완료된 {removed}개 항목을 삭제했습니다.")
         st.rerun()
