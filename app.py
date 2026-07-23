@@ -144,10 +144,10 @@ else:
             with col_label:
                 st.markdown(f"{emoji} {label}{due_text}")
             with col_edit:
-                if st.button("편집", key=f"edit_{todo['id']}", type="secondary"):
+                if st.button("✏️", key=f"edit_{todo['id']}", type="secondary", use_container_width=True):
                     st.session_state.editing_id = todo["id"]
                     st.rerun()
             with col_del:
-                if st.button("삭제", key=f"del_{todo['id']}", type="secondary"):
+                if st.button("🗑️", key=f"del_{todo['id']}", type="secondary", use_container_width=True):
                     tm.delete(todo["id"])
                     st.rerun()
