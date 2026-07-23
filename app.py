@@ -17,6 +17,26 @@ st.markdown("""
 /* 공통 */
 .block-container { padding-top: 1.5rem; padding-bottom: 2rem; }
 
+/* 제목을 텍스트처럼 보이는 버튼으로 */
+div[data-testid="stHorizontalBlock"]:has(> div[data-testid="column"]:nth-child(3)) > div[data-testid="column"]:nth-child(2) button {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: inherit !important;
+    text-align: left !important;
+    padding: 0.1rem 0 !important;
+    font-size: 1rem !important;
+    font-weight: normal !important;
+    width: 100% !important;
+    cursor: pointer !important;
+    min-height: unset !important;
+}
+div[data-testid="stHorizontalBlock"]:has(> div[data-testid="column"]:nth-child(3)) > div[data-testid="column"]:nth-child(2) button:hover {
+    background: transparent !important;
+    color: #ff4b4b !important;
+    text-decoration: underline !important;
+}
+
 /* 모바일 최적화 */
 @media (max-width: 640px) {
     h1 { font-size: 1.4rem !important; }
@@ -133,7 +153,7 @@ else:
                 st.session_state.editing_id = None
                 st.rerun()
         else:
-            col_check, col_label, col_actions = st.columns([0.5, 7, 2])
+            col_check, col_label, col_del = st.columns([0.5, 9, 1])
             with col_check:
                 checked = st.checkbox(
                     "", value=todo["done"], key=f"chk_{todo['id']}", label_visibility="collapsed"
@@ -142,14 +162,10 @@ else:
                     tm.toggle_done(todo["id"])
                     st.rerun()
             with col_label:
-                st.markdown(f"{emoji} {label}{due_text}")
-            with col_actions:
-                btn_edit, btn_del = st.columns(2)
-                with btn_edit:
-                    if st.button("✏️", key=f"edit_{todo['id']}", type="secondary", use_container_width=True):
-                        st.session_state.editing_id = todo["id"]
-                        st.rerun()
-                with btn_del:
-                    if st.button("🗑️", key=f"del_{todo['id']}", type="secondary", use_container_width=True):
-                        tm.delete(todo["id"])
-                        st.rerun()
+                if st.button(f"{emoji} {label}{due_text}", key=f"title_{todo['id']}", use_container_width=True):
+                    st.session_state.editing_id = todo["id"]
+                    st.rerun()
+            with col_del:
+                if st.button("🗑️", key=f"del_{todo['id']}", use_container_width=True):
+                    tm.delete(todo["id"])
+                    st.rerun()
