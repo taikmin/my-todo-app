@@ -28,6 +28,9 @@
 - (예: solve_ivp 사용 금지 — RK4 직접 구현)
 - (예: 외부 API 키를 코드에 하드코딩 금지)
 - 테스트 없이 커밋 금지
+- **Streamlit 커스텀 CSS에서 `data-testid`·`nth-child` 선택자 금지**
+  → 버전 업그레이드 시 조용히 깨짐. `key=`를 주고 `[class*="st-key-{key}"]`로 지정할 것 (L-03)
+- **텍스트가 들어가는 버튼에 고정 높이 금지** → `height: auto` + `white-space: normal` (L-04)
 
 ### 팀 모드 규칙
 - 팀원 생성/삭제는 **반드시 사용자 허락 후에만**

@@ -17,29 +17,47 @@ st.markdown("""
 /* 공통 */
 .block-container { padding-top: 1.5rem; padding-bottom: 2rem; }
 
-/* 제목 버튼 - 텍스트처럼 왼쪽 정렬 */
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(2) button[data-testid="baseButton-secondary"],
-div[data-testid="stColumns"] > div[data-testid="stColumn"]:nth-child(2) button[data-testid="baseButton-secondary"] {
+/* 제목 버튼 - 텍스트처럼 왼쪽 정렬 + 긴 제목 줄바꿈 허용
+   st-key-{key} 클래스로 제목 버튼만 정확히 지정 (Streamlit 1.39+) */
+[class*="st-key-title_"] button {
     display: flex !important;
     justify-content: flex-start !important;
-    align-items: center !important;
+    align-items: flex-start !important;
+    text-align: left !important;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
     color: inherit !important;
-    padding: 0.1rem 0.2rem !important;
+    padding: 0.35rem 0.2rem !important;
     font-size: 1rem !important;
     font-weight: normal !important;
+    line-height: 1.45 !important;
     width: 100% !important;
     cursor: pointer !important;
-    min-height: unset !important;
+    /* 두 줄 이상이면 버튼이 세로로 늘어나야 함 (고정 높이 금지) */
+    height: auto !important;
+    min-height: 2.6rem !important;
+    max-height: none !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
 }
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(2) button[data-testid="baseButton-secondary"] > div,
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(2) button[data-testid="baseButton-secondary"] p {
+/* 라벨 <p>가 한 줄로 잘리는 것을 방지 */
+[class*="st-key-title_"] button p,
+[class*="st-key-title_"] button > div {
     text-align: left !important;
     width: 100% !important;
+    line-height: 1.45 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+    display: block !important;
+    max-height: none !important;
 }
-div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(2) button[data-testid="baseButton-secondary"]:hover {
+[class*="st-key-title_"] button:hover {
     background: transparent !important;
     color: #ff4b4b !important;
     text-decoration: underline !important;
@@ -51,8 +69,14 @@ div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-child(2) bu
     h2 { font-size: 1.1rem !important; }
     .stButton > button {
         min-height: 2.6rem;
+        height: auto;          /* 라벨이 길어지면 세로로 늘어나도록 */
+        white-space: normal;
         font-size: 0.85rem;
         padding: 0.25rem 0.4rem;
+    }
+    /* 제목 버튼은 본문 크기 유지 (읽기 쉽게) */
+    [class*="st-key-title_"] button {
+        font-size: 0.95rem !important;
     }
     .stTextInput input, .stSelectbox select {
         font-size: 1rem;
@@ -161,10 +185,14 @@ else:
                 st.session_state.editing_id = None
                 st.rerun()
         else:
-            col_check, col_label, col_del = st.columns([0.5, 9, 1])
+            # 제목이 두 줄 이상이어도 체크박스·삭제 버튼이 세로 중앙에 맞도록
+            col_check, col_label, col_del = st.columns(
+                [0.5, 9, 1], vertical_alignment="center"
+            )
             with col_check:
                 checked = st.checkbox(
-                    "", value=todo["done"], key=f"chk_{todo['id']}", label_visibility="collapsed"
+                    "완료", value=todo["done"], key=f"chk_{todo['id']}",
+                    label_visibility="collapsed",
                 )
                 if checked != todo["done"]:
                     tm.toggle_done(todo["id"])
